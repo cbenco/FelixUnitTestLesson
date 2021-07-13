@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FelixUnitTestLesson
@@ -44,15 +43,24 @@ namespace FelixUnitTestLesson
             return number.Value / divisor;
         }
 
-        public async Task CreateNumber(int number)
+        public async Task CreateNumbers(IEnumerable<int> numbers)
         {
-            var numberId = Guid.NewGuid().ToString();
-            await _numberRepository.SaveNumber(numberId, number);
+            foreach (var number in numbers)
+            {
+                if (number != 47)
+                {
+                    var numberId = Guid.NewGuid().ToString();
+                    await _numberRepository.SaveNumber(numberId, number);
+                }
+            }
         }
 
-        public async Task UpdateNumber(string numberId, int number)
+        public async Task UpdateNumbers(IEnumerable<(string, int)> numbers)
         {
-            await _numberRepository.SaveNumber(numberId, number);
+            foreach (var (numberId, number) in numbers)
+            {
+                await _numberRepository.SaveNumber(numberId, number);
+            }
         }
 
         public async Task DeleteNumber(string numberId)
